@@ -1,5 +1,11 @@
+// intialize tile mapping
+tileMapping = new TileMapping(params.data_cube)
+
 process PREPROCESS_CONFIG {
-    tag { data.simpleName }
+    tag {
+        tileMapping.getTileMap(file("${data.toRealPath()}/*.txt")[0]) // returns tile map as Map
+        }
+    // tag { data.simpleName }
     label 'process_single'
 
     container "docker.io/davidfrantz/force:3.7.10"
