@@ -2,13 +2,9 @@
 tileMapping = new TileMapping(params.data_cube)
 
 process FORCE_PREPROCESS {
-    tag {
-        tileMapping.getTileMap(file("${data.toRealPath()}/*.txt")[0]).keySet().size() // returns tile map as Map
-        }
-    // tag { data.simpleName }
+    tag { data.simpleName }
     label 'process_medium'
-
-    // outLabel { tileMapping.getTileMap(file("${data.toRealPath()}/*.txt")[0]).keySet() }
+    outLabel { (tileMapping.getTileMap(file("${data.toRealPath()}/*.txt")[0]).keySet() as List) }
 
     container "docker.io/davidfrantz/force:3.7.10"
 

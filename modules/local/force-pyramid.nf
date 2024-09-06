@@ -1,8 +1,7 @@
 process FORCE_PYRAMID {
     tag { tile }
     label 'process_low'
-
-    // outLabel { tile }
+    outLabel { tile }
 
     container "docker.io/davidfrantz/force:3.7.10"
 

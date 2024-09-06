@@ -1,8 +1,7 @@
 process HIGHER_LEVEL_CONFIG {
     tag { tile }
     label 'process_single'
-
-    // outLabel { tile }
+    outLabel { tile }
 
     container "docker.io/davidfrantz/force:3.7.10"
 
