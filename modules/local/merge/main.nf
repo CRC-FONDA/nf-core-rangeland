@@ -1,6 +1,7 @@
 process MERGE {
     tag { id }
     label 'process_low'
+    label 'error_retry'
     outLabel { id }
 
     container "docker.io/davidfrantz/force:3.7.10"

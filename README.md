@@ -9,7 +9,7 @@
 [![GitHub Actions Linting Status](https://github.com/nf-core/rangeland/actions/workflows/linting.yml/badge.svg)](https://github.com/nf-core/rangeland/actions/workflows/linting.yml)[![AWS CI](https://img.shields.io/badge/CI%20tests-full%20size-FF9900?labelColor=000000&logo=Amazon%20AWS)](https://nf-co.re/rangeland/results)[![Cite with Zenodo](http://img.shields.io/badge/DOI-10.5281/zenodo.XXXXXXX-1073c8?labelColor=000000)](https://doi.org/10.5281/zenodo.XXXXXXX)
 [![nf-test](https://img.shields.io/badge/unit_tests-nf--test-337ab7.svg)](https://www.nf-test.com)
 
-[![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A523.04.0-23aa62.svg)](https://www.nextflow.io/)
+[![Nextflow](https://img.shields.io/badge/nextflow%20DSL2-%E2%89%A524.04.2-23aa62.svg)](https://www.nextflow.io/)
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/en/latest/)
 [![run with docker](https://img.shields.io/badge/run%20with-docker-0db7ed?labelColor=000000&logo=docker)](https://www.docker.com/)
 [![run with singularity](https://img.shields.io/badge/run%20with-singularity-1d355c.svg?labelColor=000000)](https://sylabs.io/docs/)
@@ -19,7 +19,8 @@
 
 ## Introduction
 
-**nf-core/rangeland** is a geographical best-practice analysis pipeline for remotely sensed imagery. The pipeline processes satellite imagery alongside auxiliary data in multiple steps to arrive at a set of trend files related to land-cover changes. The main pipeline steps are:
+**nf-core/rangeland** is a geographical best-practice analysis pipeline for remotely sensed imagery.
+The pipeline processes satellite imagery alongside auxiliary data in multiple steps to arrive at a set of trend files related to land-cover changes. The main pipeline steps are:
 
 1. Read satellite imagery, digital elevation model, endmember definition, water vapor database and area of interest definition
 2. Generate allow list and analysis mask to determine which pixels from the satellite data can be used
@@ -33,9 +34,12 @@
 ## Usage
 
 > [!NOTE]
-> If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow. Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
+> If you are new to Nextflow and nf-core, please refer to [this page](https://nf-co.re/docs/usage/installation) on how to set-up Nextflow.
+> Make sure to [test your setup](https://nf-co.re/docs/usage/introduction#how-to-run-a-pipeline) with `-profile test` before running the workflow on actual data.
 
-To run the pipeline on real data, input data needs to be acquired. Concretely, satellite imagery, water vapor data, a digital elevation model, endmember definitions, a datacube specification, and a area-of-interest specification are required. Please refer to the [usage documentation](https://nf-co.re/rangeland/usage) for details on the input structure.
+To run the pipeline on real data, input data needs to be acquired.
+Concretely, satellite imagery, water vapor data, a digital elevation model, endmember definitions, a datacube specification, and a area-of-interest specification are required.
+Please refer to the [usage documentation](https://nf-co.re/rangeland/usage) for details on the input structure.
 
 Now, you can run the pipeline using:
 
@@ -52,8 +56,7 @@ nextflow run nf-core/rangeland \
 ```
 
 > [!WARNING]
-> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_;
-> see [docs](https://nf-co.re/usage/configuration#custom-configuration-files).
+> Please provide pipeline parameters via the CLI or Nextflow `-params-file` option. Custom config files including those provided by the `-c` Nextflow option can be used to provide any configuration _**except for parameters**_; see [docs](https://nf-co.re/docs/usage/getting_started/configuration#custom-configuration-files).
 
 For more details and further functionality, please refer to the [usage documentation](https://nf-co.re/rangeland/usage) and the [parameter documentation](https://nf-co.re/rangeland/parameters).
 
@@ -72,7 +75,8 @@ The rangeland workflow was originally written by:
 
 The original workflow can be found on [github](https://github.com/CRC-FONDA/FORCE2NXF-Rangeland).
 
-Transformation to nf-core/rangeland was conducted by [Felix Kummer](https://github.com/Felix-Kummer). nf-core alignment started on the [nf-core branch of the original repository](https://github.com/CRC-FONDA/FORCE2NXF-Rangeland/tree/nf-core).
+Transformation to nf-core/rangeland was conducted by [Felix Kummer](https://github.com/Felix-Kummer).
+nf-core alignment started on the [nf-core branch of the original repository](https://github.com/CRC-FONDA/FORCE2NXF-Rangeland/tree/nf-core).
 
 We thank the following people for their extensive assistance in the development of this pipeline:
 
@@ -114,7 +118,8 @@ You can cite the `nf-core` publication as follows:
 >
 > _Nat Biotechnol._ 2020 Feb 13. doi: [10.1038/s41587-020-0439-x](https://dx.doi.org/10.1038/s41587-020-0439-x).
 
-This pipeline is based one the publication listed below. The publication can be cited as follows:
+This pipeline is based one the publication listed below.
+The publication can be cited as follows:
 
 > **FORCE on Nextflow: Scalable Analysis of Earth Observation Data on Commodity Clusters**
 >
