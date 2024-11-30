@@ -5,7 +5,7 @@ process FORCE_PREPROCESS {
     tag { data.simpleName }
     label 'process_medium'
     label 'error_retry'
-    outLabel { (tileMapping.getTileMap(file("${data.toRealPath()}/*.txt")[0]).keySet() as List) }
+    outLabel { (tileMapping.getTileMap(file("${data.toRealPath()}/*_MTL.txt")[0]).keySet() as List) }
 
     container "docker.io/davidfrantz/force:3.7.10"
 
