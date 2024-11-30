@@ -2,6 +2,7 @@ import mil.nga.crs.CRS
 import mil.nga.crs.util.proj.ProjParser
 import mil.nga.crs.wkt.CRSReader
 import org.locationtech.jts.geom.*
+import org.locationtech.jts.geom.util.GeometryFixer;
 import org.locationtech.proj4j.CRSFactory
 import org.locationtech.proj4j.CoordinateReferenceSystem
 import org.locationtech.proj4j.ProjCoordinate
@@ -101,7 +102,7 @@ class TileMapping {
                 .map(corner -> new Coordinate(corner.x, corner.y))
                 .toArray(Coordinate[]::new);
 
-        Polygon landsatPolygon = createPolygon(jstCoordinates[0], jstCoordinates[1], jstCoordinates[2], jstCoordinates[3]);
+        Polygon landsatPolygon = correctPolygon(createPolygon(jstCoordinates[0], jstCoordinates[1], jstCoordinates[2], jstCoordinates[3]));
 
 
         // get min and max force tile rows/columns that may intersect landsat tile
@@ -130,7 +131,7 @@ class TileMapping {
                 .collect(Collectors.toMap( // compute final mapping of force tile->intersection area with landsat tile
                         entry -> getTileString(entry.getKey()),
                         entry -> {
-                            Geometry intersection = entry.getValue().intersection(landsatPolygon);
+                            Geometry intersection = correctPolygon(entry.getValue()).intersection(landsatPolygon);
                             if (intersection instanceof Polygon){
 //                                System.out.println("Intersection area: " + intersection.getArea());
                                 return intersection.getArea();
@@ -215,6 +216,23 @@ class TileMapping {
             tileCache.put(tile_xy, tilePolygon);
             return new AbstractMap.SimpleEntry<>(tile_xy, tilePolygon);
         }
+    }
+
+    /**
+     * Correct potentially invalid polygons (e.g. the polygon intersects with itself).
+     * This is required to perform geometric operation such as intersections.
+     * Invalid polygons may break these operations otherwise.
+     * @param polygon polygon that should be corrected
+     * @return Corrected polygon
+     */
+    private Polygon correctPolygon(Polygon polygon) {
+        Polygon correctedPolygon;
+        if (!polygon.isValid()) {
+            correctedPolygon = (Polygon) GeometryFixer.fix(polygon);
+        } else {
+            correctedPolygon = polygon;
+        }
+        return (Polygon) correctedPolygon.buffer(0);
     }
 
 }
