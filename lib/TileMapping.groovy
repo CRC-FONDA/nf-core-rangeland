@@ -226,13 +226,49 @@ class TileMapping {
      * @return Corrected polygon
      */
     private Polygon correctPolygon(Polygon polygon) {
-        Polygon correctedPolygon;
+        Geometry correctedGeometry;
         if (!polygon.isValid()) {
-            correctedPolygon = (Polygon) GeometryFixer.fix(polygon);
+
+            // fix polygon
+            correctedGeometry = GeometryFixer.fix(polygon, false);
+
+            // result is Polygon
+            if (correctedGeometry instanceof Polygon) {
+                return (Polygon) correctedGeometry.buffer(0);
+
+            // result is MultiPolygon
+            } else if (correctedGeometry instanceof MultiPolygon) {
+                MultiPolygon multiPolygon = (MultiPolygon) correctedGeometry;
+                return (Polygon) multiPolygon.convexHull();
+
+            // result is GeometryCollection
+            } else if (correctedGeometry instanceof GeometryCollection ) {
+                Polygon largestPolygon = null;
+                double maxArea = 0.0;
+
+                for (int i = 0; i < correctedGeometry.getNumGeometries(); i++) {
+                    Geometry component = correctedGeometry.getGeometryN(i);
+                    if (component instanceof Polygon) {
+                        Polygon p = (Polygon) component.buffer(0);
+                        double area = p.getArea();
+
+                        if (area > maxArea) {
+                            maxArea = area;
+                            largestPolygon = p;
+                        }
+                    }
+                }
+
+                return largestPolygon;
+
+            } else {
+                throw new RuntimeException("Geometry of type " + correctedGeometry.getClass() + " cannot be corrected into a valid polygon");
+            }
+
         } else {
-            correctedPolygon = polygon;
+            return polygon;
         }
-        return (Polygon) correctedPolygon.buffer(0);
+
     }
 
 }
