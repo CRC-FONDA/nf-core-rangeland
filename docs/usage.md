@@ -316,7 +316,7 @@ The option is disabled by default to reduce the output size.
 The time series stack output can be enabled using:
 
 ```bash
---return_tss '[boolean]'
+--return_tss true
 ```
 
 ### Visualization
@@ -331,8 +331,8 @@ Note that the mosaic visualization is required to be enabled when using the `tes
 The visualizations can be enabled using:
 
 ```bash
---mosaic_visualization  = '[boolean]'
---pyramid_visualization = '[boolean]'
+--mosaic_visualization  = true
+--pyramid_visualization = true
 ```
 
 ### Intermediate data publishing
@@ -344,8 +344,8 @@ The files for preprocessing and higher level processing can, therefore, be publi
 Publishing of intermediate data can be enabled using:
 
 ```bash
---save_ard  = '[boolean]'
---save_tsa  = '[boolean]'
+--save_ard  = true
+--save_tsa  = true
 ```
 
 ### Module output publishing
@@ -355,10 +355,10 @@ To disable all modules from publishing their outputs, the `--publish_dir_enabled
 Note that this affects _all modules_.
 By default all modules publish their outputs according to the other parameters.
 
-Publishing of all module's outputs can be enabled or disabled using:
+Publishing of all module's outputs can be disabled using:
 
 ```bash
---publish_dir_enabled  = '[boolean]'
+--publish_dir_enabled  = false
 ```
 
 ## Running the pipeline
@@ -366,7 +366,7 @@ Publishing of all module's outputs can be enabled or disabled using:
 The typical command for running the pipeline is as follows:
 
 ```bash
-nextflow run nf-core/rangeland --input <SATELLITE_DATA_DIR> --dem <DIGITAL_ELEVATION_DIR> --wvdb <WATOR_VAPOR_DIR> --data_cube <DATACUBE_FILE> --aoi <AREA_OF_INTEREST_FILE> --endmember <ENDMEMBER_FILE> --outdir <OUTDIR>  -profile docker
+nextflow run nf-core/rangeland -profile docker --input <SATELLITE_DATA_DIR> --dem <DIGITAL_ELEVATION_DIR> --wvdb <WATOR_VAPOR_DIR> --data_cube <DATACUBE_FILE> --aoi <AREA_OF_INTEREST_FILE> --endmember <ENDMEMBER_FILE> --outdir <OUTDIR>
 ```
 
 This will launch the pipeline with the `docker` configuration profile. See below for more information about profiles.
@@ -384,10 +384,9 @@ If you wish to repeatedly use the same parameters for multiple runs, rather than
 
 Pipeline settings can be provided in a `yaml` or `json` file via `-params-file <file>`.
 
-:::warning
-Do not use `-c <file>` to specify parameters as this will result in errors.
-Custom config files specified with `-c` must only be used for [tuning process resource specifications](https://nf-co.re/docs/usage/configuration#tuning-workflow-resources), other infrastructural tweaks (such as output directories), or module arguments (args).
-:::
+> [!WARNING]
+> Do not use `-c <file>` to specify parameters as this will result in errors.
+> Custom config files specified with `-c` must only be used for [tuning process resource specifications](https://nf-co.re/docs/usage/configuration#tuning-workflow-resources), other infrastructural tweaks (such as output directories), or module arguments (args).
 
 The above pipeline run specified with a params file in yaml format:
 
@@ -426,22 +425,20 @@ It is a good idea to specify a pipeline version when running the pipeline on you
 This ensures that a specific version of the pipeline code and software are used when you run your pipeline.
 If you keep using the same tag, you'll be running the same version of the pipeline, even if there have been changes to the code since.
 
-First, go to the [nf-core/rangeland releases page](https://github.com/nf-core/rangeland/releases) and find the latest pipeline version - numeric only (eg. `1.3.1`).
+First, go to the [nf-core/rangeland releases page](https://github.com/nf-core/rangeland/releases) and find the latest pipeline version - numeric only (eg. `1.0.0`).
 Then specify this when running the pipeline with `-r` (one hyphen) - eg. `-r 1.3.1`. Of course, you can switch to another version by changing the number after the `-r` flag.
 
 This version number will be logged in reports when you run the pipeline, so that you'll know what you used when you look back in the future. For example, at the bottom of the MultiQC reports.
 
-To further assist in reproducbility, you can use share and re-use [parameter files](#running-the-pipeline) to repeat pipeline runs with the same settings without having to write out a command with every single parameter.
+To further assist in reproducibility, you can use share and reuse [parameter files](#running-the-pipeline) to repeat pipeline runs with the same settings without having to write out a command with every single parameter.
 
-:::tip
-If you wish to share such profile (such as upload as supplementary material for academic publications), make sure to NOT include cluster specific paths to files, nor institutional specific profiles.
-:::
+> [!TIP]
+> If you wish to share such profile (such as upload as supplementary material for academic publications), make sure to NOT include cluster specific paths to files, nor institutional specific profiles.
 
 ## Core Nextflow arguments
 
-:::note
-These options are part of Nextflow and use a _single_ hyphen (pipeline parameters use a double-hyphen).
-:::
+> [!NOTE]
+> These options are part of Nextflow and use a _single_ hyphen (pipeline parameters use a double-hyphen)
 
 ### `-profile`
 
@@ -450,9 +447,8 @@ Profiles can give configuration presets for different compute environments.
 
 Several generic profiles are bundled with the pipeline which instruct the pipeline to use software packaged using different methods (Docker, Singularity, Podman, Shifter, Charliecloud, Apptainer, Conda) - see below.
 
-:::info
-We highly recommend the use of Docker or Singularity containers for full pipeline reproducibility, however when this is not possible, Conda is also supported.
-:::
+> [!IMPORTANT]
+> We highly recommend the use of Docker or Singularity containers for full pipeline reproducibility, however when this is not possible, Conda is also supported.
 
 The pipeline also dynamically loads configurations from [https://github.com/nf-core/configs](https://github.com/nf-core/configs) when it runs, making multiple config profiles for various institutional clusters available at run time.
 For more information and to see if your system is available in these configs please see the [nf-core/configs documentation](https://github.com/nf-core/configs#documentation).
@@ -513,9 +509,9 @@ To change the resource requests, please see the [max resources](https://nf-co.re
 
 ### Custom Containers
 
-In some cases you may wish to change which container or conda environment a step of the pipeline uses for a particular tool.
-By default nf-core pipelines use containers and software from the [biocontainers](https://biocontainers.pro/) or [bioconda](https://bioconda.github.io/) projects.
-However in some cases the pipeline specified version maybe out of date.
+In some cases, you may wish to change the container or conda environment used by a pipeline steps for a particular tool.
+By default, nf-core pipelines use containers and software from the [biocontainers](https://biocontainers.pro/) or [bioconda](https://bioconda.github.io/) projects.
+However, in some cases the pipeline specified version maybe out of date.
 
 To use a different container from the default container or conda environment specified in a pipeline, please see the [updating tool versions](https://nf-co.re/docs/usage/configuration#updating-tool-versions) section of the nf-core website.
 

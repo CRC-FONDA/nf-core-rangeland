@@ -3,7 +3,7 @@ process FORCE_PYRAMID {
     label 'process_low'
     outLabel { tile }
 
-    container "docker.io/davidfrantz/force:3.7.10"
+    container "nf-core/force:3.8.01"
 
     input:
     tuple val(tile), path(image)
